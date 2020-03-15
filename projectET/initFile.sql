@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS `SinhVienLop`;
+DROP TABLE IF EXISTS `Lop`;
+DROP TABLE IF EXISTS `MonHoc`;
+DROP TABLE IF EXISTS `GiaoVien`;
+DROP TABLE IF EXISTS `SinhVien`;
+
+CREATE TABLE `GiaoVien` (  `MaGV` char(20) NOT NULL,  `HoGV` char(20) DEFAULT NULL,  `TenGV` char(20) DEFAULT NULL,  `DonVi` char(30) DEFAULT NULL,  PRIMARY KEY (`MaGV`));
+
+CREATE TABLE `MonHoc` (  `MaMH` char(20) NOT NULL,  `TenMH` char(50) DEFAULT NULL,  `SoTC` float DEFAULT NULL,  PRIMARY KEY (`MaMH`));
+
+CREATE TABLE `SinhVien` (  `MaSV` char(20) NOT NULL,  `HoSV` char(20) DEFAULT NULL,  `TenSV` char(20) DEFAULT NULL,  `NgaySinh` date DEFAULT NULL,  `NoiSinh` char(30) DEFAULT NULL,  PRIMARY KEY (`MaSV`));
+
+CREATE TABLE `Lop` (  `Malop` char(20) NOT NULL,  `MaMH` char(20) DEFAULT NULL,  `NamHoc` char(20) DEFAULT NULL,  `HocKy` char(10) DEFAULT NULL,  `MaGV` char(20) DEFAULT NULL,  PRIMARY KEY (`Malop`),  KEY `MaMH` (`MaMH`),  KEY `MaGV` (`MaGV`),  CONSTRAINT `Lop_ibfk_1` FOREIGN KEY (`MaMH`) REFERENCES `MonHoc` (`MaMH`) ON DELETE CASCADE,  CONSTRAINT `Lop_ibfk_2` FOREIGN KEY (`MaGV`) REFERENCES `GiaoVien` (`MaGV`) ON DELETE CASCADE);
+
+CREATE TABLE `SinhVienLop` (  `MaSV` char(20) NOT NULL,  `MaLop` char(20) NOT NULL,  `Diem` float DEFAULT NULL,  PRIMARY KEY (`MaSV`,`MaLop`),  KEY `MaLop` (`MaLop`),  CONSTRAINT `SinhVienLop_ibfk_1` FOREIGN KEY (`MaSV`) REFERENCES `SinhVien` (`MaSV`) ON DELETE CASCADE,  CONSTRAINT `SinhVienLop_ibfk_2` FOREIGN KEY (`MaLop`) REFERENCES `Lop` (`Malop`) ON DELETE CASCADE);
+
